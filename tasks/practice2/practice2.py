@@ -12,7 +12,7 @@ def greet_user(name: str) -> str:
     :return: приветствие
     """
 
-    # пиши код здесь
+    greeting = "Привет! " + name
     return greeting
 
 
@@ -27,8 +27,9 @@ def get_amount() -> float:
 
     :return: случайную сумму на счете
     """
+    import random
 
-    # пиши код здесь
+    amount = round(random.uniform(100, 1000000), 2)
     return amount
 
 
@@ -41,8 +42,10 @@ def is_phone_correct(phone_number: str) -> bool:
     :return: буленовское значение - bool: True - если номер корректны,
                                           False - если номер некорректный
     """
-
-    # пиши код здесь
+    import re
+    
+    pattern = "\+7[0-9]{10}$"
+    result = re.match(pattern, phone_number)
     return result
 
 
@@ -57,8 +60,12 @@ def is_amount_correct(current_amount: float, transfer_amount: str) -> bool:
     :return: буленовское значение - bool: True - если перевод возможен,
                                           False - если денег недостаточно
     """
+    
+    if current_amount >= float(transfer_amount):
+        result = True
+    else:
+        result = False
 
-    # пиши код здесь
     return result
 
 
@@ -77,7 +84,23 @@ def moderate_text(text: str, uncultured_words: Iterable[str]) -> str:
     :return: текст, соответсвующий правилам
     """
 
-    # пиши код здесь
+    # Удаление лишних пробелов
+    text = " ".join(text.split())
+
+    # Первая заглавная, остальные - нет
+    text = text.lower()
+    text = text[0].upper() + text[1:]
+
+    # Фильтр 'опасных' символов
+    for symbol in ['\'', '\"']:
+        text = text.replace(symbol, '')
+    
+    
+    # Замена uncultured words
+    for word in uncultured_words:
+        text = text.replace(word, '#' * len(word))
+
+    result = text
     return result
 
 
@@ -100,5 +123,10 @@ def create_request_for_loan(user_info: str) -> str:
     :return: текст кредитной заявки
     """
 
-    # пиши код здесь
+    user_info = user_info.split(',')
+    result = f'Фамилия: {user_info[0]}\n' \
+                f'Имя: {user_info[1]}\n' \
+                f'Отчество: {user_info[2]}\n' \
+                f'Дата рождения: {user_info[3]}\n' \
+                f'Запрошенная сумма: {user_info[4]}' 
     return result
