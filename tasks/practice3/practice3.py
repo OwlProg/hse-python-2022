@@ -26,9 +26,32 @@ def count_words(text: str) -> Dict[str, int]:
              значение - количество вхождений слов в текст
     """
 
-    # пиши свой код здесь
+    wordsDict = {}
+    punctuation_chars = ['.', ',', '!', '?', ':', '-']
 
-    return {}
+    def isWord(str):
+            if str == '' or str in punctuation_chars:
+                return False
+
+            for symb in str:
+                if symb.isdigit():
+                    return False
+            return True
+    text = text.split(' ')
+    for word in text:
+        word = word.lower()
+        if isWord(word):
+            while word[0] in punctuation_chars:
+                word = word[1:]
+            while word[-1] in punctuation_chars:
+                word = word[:-1]
+            
+            if wordsDict.get(word) != None:
+                wordsDict[word] += 1
+            else:
+                wordsDict[word] = 1
+
+    return wordsDict
 
 
 def exp_list(numbers: List[int], exp: int) -> List[int]:
@@ -40,9 +63,10 @@ def exp_list(numbers: List[int], exp: int) -> List[int]:
     :return: список натуральных чисел
     """
 
-    # пиши свой код здесь
+    for i in range(len(numbers)):
+        numbers[i] **= exp
 
-    return []
+    return numbers
 
 
 def get_cashback(operations: List[Dict[str, Any]], special_category: List[str]) -> float:
@@ -58,13 +82,13 @@ def get_cashback(operations: List[Dict[str, Any]], special_category: List[str]) 
     :return: размер кешбека
     """
 
-    res = 0
-    for x in operations:
-        if x['category'] in special_category:
-            res += x['amount'] * 0.05
+    result = 0
+    for operation in operations:
+        if operation['category'] in special_category:
+            result += operation['amount'] * 0.05
         else:
-            res += x['amount'] * 0.01
-    return res
+            result += operation['amount'] * 0.01
+    return result
 
 
 def get_path_to_file() -> Optional[Path]:
@@ -104,7 +128,21 @@ def csv_reader(header: str) -> int:
     :param header: название заголовка
     :return: количество уникальных элементов в столбце
     """
+    import csv
 
-    # пиши свой код здесь
+    csvfile = open(get_path_to_file(), 'r', newline='')
+    reader = csv.reader(csvfile)
+    id = 0
+    for col in reader:
+        for item in col:
+            if item != header:
+                id += 1
+            else:
+                break
+        break
 
-    return 0
+    elements = []
+    for col in reader:
+        elements.append(col[id])
+
+    return len(set(elements))
