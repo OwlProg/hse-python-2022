@@ -38,6 +38,22 @@ def search_phone(content: Any, name: str) -> Optional[str]:
     :return: номер телефона пользователя или None
     """
 
-    # пиши свой код здесь
+    def recursive_read(structure):    
+        if isinstance(structure, dict) and structure.get('name') != None and structure['name'] == name:
+            return structure['phone']
 
-    return None
+        if isinstance(structure, list):
+            for elem in structure:
+                result = recursive_read(elem)
+                if result != None:
+                    return result
+        elif isinstance(structure, dict):
+            for struct in structure:
+                result = recursive_read(structure[struct])
+                if result != None:
+                    return result
+        else:
+            return None
+
+    return recursive_read(content)
+
