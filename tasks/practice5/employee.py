@@ -1,4 +1,6 @@
-from typing import Dict
+from typing import Dict, Type
+
+from numpy import isin
 
 from .exception import NoSuchPositionError
 
@@ -37,15 +39,20 @@ class Employee:
         """
         Задача: реализовать конструктор класса, чтобы все тесты проходили
         """
+        if not(isinstance(name, str) and isinstance(position, str) and isinstance(salary, int)):
+            raise ValueError
 
-        # пиши свой код здесь
+        self._salary = salary
+        self.position = position
+        self.name = name
+        
 
     def get_salary(self) -> int:
         """
         Метод возвращает зарплату сотрудника.
         """
 
-        # пиши свой код здесь
+        return self._salary
 
     def __eq__(self, other: object) -> bool:
         """
@@ -54,8 +61,14 @@ class Employee:
         Сравнение происходит по уровню позиции см. `get_position_level`.
         Если что-то идет не так - бросаются исключения. Смотрим что происходит в тестах.
         """
+        if not(isinstance(other, Employee) and isinstance(self, Employee)):
+            raise TypeError
 
-        # пиши свой код здесь
+        try:
+            return get_position_level(self.position) == get_position_level(other.position)
+        except NoSuchPositionError:
+            raise ValueError
+
 
     def __str__(self):
         """
@@ -63,7 +76,7 @@ class Employee:
         Пример вывода: 'name: Ivan position manager'
         """
 
-        # пиши свой код здесь
+        return f'name: {self.name} position: {self.position}'
 
     def __hash__(self):
         return id(self)
@@ -82,7 +95,8 @@ class Developer(Employee):
         Задача: реализовать конструктор класса, используя конструктор родителя
         """
 
-        # пиши свой код здесь
+        Employee.__init__(self, name, self.position, salary)
+        self.language = language
 
 
 class Manager(Employee):
@@ -97,4 +111,4 @@ class Manager(Employee):
         Задача: реализовать конструктор класса, используя конструктор родителя
         """
 
-        # пиши свой код здесь
+        Employee.__init__(self, name, self.position, salary)
