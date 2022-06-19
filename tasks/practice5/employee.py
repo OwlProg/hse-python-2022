@@ -1,7 +1,5 @@
 from typing import Dict, Type
 
-from numpy import isin
-
 from .exception import NoSuchPositionError
 
 POSITIONS: Dict[str, int] = {
