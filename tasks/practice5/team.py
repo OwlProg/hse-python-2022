@@ -1,6 +1,5 @@
 from typing import Set
 
-from numpy import isin
 from .employee import Employee, Manager
 from .exception import NoSuchMemberError
 
